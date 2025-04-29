@@ -1,12 +1,17 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Display from "./pages/landingpage/Display";
-import HeroSection from "./pages/landingpage/HeroSection";
+import CartPage from "./components/Cart";
+import Landing from "./pages/landingpage/Landing";
 function App() {
   return (
     <>
-      <Navbar />
-      <HeroSection />
-      <Display />
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/cart" element={<CartPage />} />
+        </Routes>
+      </Router>
     </>
   );
 }

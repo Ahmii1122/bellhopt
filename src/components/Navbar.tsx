@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState, useEffect, JSX } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { MdShoppingCart } from "react-icons/md";
@@ -11,7 +12,7 @@ import img5 from "../assets/cake.png";
 import img6 from "../assets/Wine.png";
 import img7 from "../assets/pets.png";
 import { IoIosArrowDown } from "react-icons/io";
-
+import { useNavigate } from "react-router-dom";
 interface Category {
   name: string;
   image: JSX.Element;
@@ -23,7 +24,7 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
+  const navigate = useNavigate();
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
@@ -43,15 +44,18 @@ const Navbar = () => {
   // Check screen width
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Tailwind md breakpoint = 768px
+      setIsMobile(window.innerWidth < 768);
     };
 
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize); // Listen for resize
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize); // Cleanup
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const gotocart = () => {
+    navigate("/cart");
+  };
   return (
     <nav className="max-w-[1330px] mx-auto px-4 py-2">
       {isMobile ? (
@@ -59,7 +63,10 @@ const Navbar = () => {
         <div>
           <div className={`flex items-center justify-between`}>
             <img src={logo} alt="Logo" className="w-[100px] h-[60px]" />
-            <button className="bg-red-500 rounded-full p-2 flex items-center justify-center gap-2">
+            <button
+              onClick={gotocart}
+              className="bg-red-500 rounded-full p-2 flex items-center justify-center gap-2"
+            >
               <MdShoppingCart size={29} color="white" />
               <span className="text-white text-2xl font-semibold">4</span>
             </button>
@@ -186,7 +193,10 @@ const Navbar = () => {
               />
             </form>
 
-            <button className="pl-4 py-2 flex items-center justify-center rounded-full gap-4 bg-red-500">
+            <button
+              onClick={gotocart}
+              className="pl-4 py-2 flex items-center justify-center rounded-full gap-4 bg-red-500"
+            >
               <MdShoppingCart size={29} color="white" />
               <span className="pr-[27px] text-white text-2xl font-semibold">
                 4
