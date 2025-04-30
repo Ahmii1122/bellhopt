@@ -16,7 +16,7 @@ const Cart: React.FC = () => {
   const navigate = useNavigate();
 
   const subtotal = gettotalcartamount();
-  const tax = subtotal * 0.05;
+  // const tax = subtotal * 0.05;
   const delivery = subtotal === 0 ? 0 : 2.5;
   const total = subtotal + delivery;
 
