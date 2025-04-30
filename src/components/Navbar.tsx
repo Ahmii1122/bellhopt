@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect, JSX } from "react";
+import { useState, useEffect, JSX, useContext } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { MdShoppingCart } from "react-icons/md";
 import logo from "../assets/bellhoptlogo.png";
@@ -13,6 +12,7 @@ import img6 from "../assets/Wine.png";
 import img7 from "../assets/pets.png";
 import { IoIosArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { StoreContext, StoreContextType } from "../context/StoredContext";
 interface Category {
   name: string;
   image: JSX.Element;
@@ -25,6 +25,11 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const navigate = useNavigate();
+  const { cartitems } = useContext(StoreContext) as StoreContextType;
+  const totalCartItems = Object.keys(cartitems).filter(
+    (itemId) => cartitems[itemId] > 0
+  ).length;
+
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
@@ -62,13 +67,20 @@ const Navbar = () => {
         // Mobile View
         <div>
           <div className={`flex items-center justify-between`}>
-            <img src={logo} alt="Logo" className="w-[100px] h-[60px]" />
+            <img
+              onClick={() => navigate("/")}
+              src={logo}
+              alt="Logo"
+              className="w-[100px] h-[60px]"
+            />
             <button
               onClick={gotocart}
               className="bg-red-500 rounded-full p-2 flex items-center justify-center gap-2"
             >
               <MdShoppingCart size={29} color="white" />
-              <span className="text-white text-2xl font-semibold">4</span>
+              <span className="text-white text-2xl font-semibold">
+                {totalCartItems}
+              </span>
             </button>
           </div>
 
@@ -106,7 +118,7 @@ const Navbar = () => {
 
               {/* Menu stays on top of the overlay */}
               <div
-                className="bg-white  inset-0 h-full w-[90%] max-w-md shadow-lg absolute rounded-r-[50px] z-50"
+                className="bg-white  inset-0 h-[145%] w-[90%] max-w-md shadow-lg absolute rounded-r-[50px] z-50"
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside menu
               >
                 <img
@@ -176,7 +188,12 @@ const Navbar = () => {
         // Desktop View
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center">
-            <img src={logo} alt="Logo" className="w-[130px] h-[78px]" />
+            <img
+              onClick={() => navigate("/")}
+              src={logo}
+              alt="Logo"
+              className="hover:cursor-pointer w-[130px] h-[78px]"
+            />
           </div>
 
           <div className="relative w-[53%] flex items-center justify-between gap-4">
@@ -199,7 +216,7 @@ const Navbar = () => {
             >
               <MdShoppingCart size={29} color="white" />
               <span className="pr-[27px] text-white text-2xl font-semibold">
-                4
+                {totalCartItems}
               </span>
             </button>
           </div>
