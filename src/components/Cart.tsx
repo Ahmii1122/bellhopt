@@ -22,7 +22,7 @@ const Cart: React.FC = () => {
 
   return (
     <div className="p-4 md:p-6 lg:p-10 pb-32 md:pb-10">
-      <h1 className="text-2xl font-bold mb-6">My Cart</h1>
+      <h1 className="text-2xl font-bold mb-6 px-10">My Cart</h1>
       {/* <p className="flex justify-center text-right max-w-[900px] mt-10   md:hidden lg:block  ">
         Order Summary
       </p> */}
@@ -47,7 +47,7 @@ const Cart: React.FC = () => {
             <span>${total.toFixed(2)}</span>
           </div>
           <button
-            onClick={() => navigate("/order")}
+            onClick={() => navigate("/checkout")}
             className="mt-6 w-full bg-red-500 text-white py-2 rounded-full hover:bg-red-600 transition"
           >
             Proceed to Checkout
@@ -172,7 +172,7 @@ const Cart: React.FC = () => {
             </span>
           </div>
           <button
-            onClick={() => navigate("/order")}
+            onClick={() => navigate("/checkout")}
             className="mt-3 px-5 bg-red-500 text-white py-2 rounded-full"
           >
             Checkout
