@@ -16,19 +16,26 @@ const Cart: React.FC = () => {
   const navigate = useNavigate();
 
   const subtotal = gettotalcartamount();
-  // const tax = subtotal * 0.05;
-  const delivery = subtotal === 0 ? 0 : 2.5;
-  const total = subtotal + delivery;
+  const tax = subtotal * 0.05;
+  const delivery = subtotal === 0 ? 0 : 14.99;
+  const total = subtotal + delivery + tax;
 
   return (
     <div className="p-4 md:p-6 lg:p-10 pb-32 md:pb-10">
       <h1 className="text-2xl font-bold mb-6">My Cart</h1>
-      <div className="flex flex-col lg:flex-row-reverse gap-6">
-        <div className="hidden md:block w-full lg:w-1/3 bg-gray-50 p-6 rounded-xl shadow self-start">
-          <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+      {/* <p className="flex justify-center text-right max-w-[900px] mt-10   md:hidden lg:block  ">
+        Order Summary
+      </p> */}
+      <div className="flex flex-col-reverse lg:flex-row-reverse gap-6">
+        <div className="hidden md:block w-full lg:w-1/3  p-6 border-[1px] border-gray-200 shadow self-start mt-8">
+          <h2 className="text-lg font-semibold mb-4 ">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <span>Subtotal</span>
             <span>${subtotal.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between mb-2">
+            <span>Platform Fee(5%)</span>
+            <span>{tax.toFixed(2)}</span>
           </div>
           <div className="flex justify-between mb-2">
             <span>Driver’s Fee</span>
@@ -47,12 +54,11 @@ const Cart: React.FC = () => {
           </button>
         </div>
 
-        <div className="flex-1">
-          <div className="hidden md:grid grid-cols-5 text-sm font-semibold text-gray-700 border-b pb-3 gap-1 sm:gap-2">
+        <div className="flex-1 mb-6 gap-2 md:px-10">
+          <div className="hidden md:grid w-full grid-cols-4 text-sm font-semibold text-gray-700 border-b pb-3 gap-1 sm:gap-2">
             <p>Product</p>
             <p className="text-center">Price</p>
             <p className="text-center">Quantity</p>
-            <p className="text-center col-span-2 sm:col-span-1">Actions</p>
           </div>
 
           {food_list.map((item) => {
@@ -60,15 +66,15 @@ const Cart: React.FC = () => {
             if (quantity > 0) {
               return (
                 <div key={item.id} className="border-b py-4">
-                  <div className="hidden md:grid grid-cols-5 items-center gap-1 sm:gap-2">
-                    <div className="flex flex-col items-center gap-2 sm:gap-3 overflow-hidden">
+                  <div className="hidden md:grid grid-cols-4 items-center gap-1 sm:gap-2">
+                    <div className="flex flex-col md:flex-row items-center gap-5 sm:gap-3 ">
                       <img
                         src={item.image}
                         alt={item.name}
                         className="w-12 h-12 sm:w-16 sm:h-16 object-cover border-2 border-gray-200 p-1 rounded"
                       />
-                      <div className="flex flex-col p-1">
-                        <p className="font-medium text-xs sm:text-sm leading-tight max-w-[100px] sm:max-w-none">
+                      <div className="flex flex-col -2">
+                        <p className=" text-xl font-bold sm:text-sm text-nowrap leading-tight md:text-wrap lg:text-nowrap max-w-[100px] sm:max-w-none">
                           {item.name}
                         </p>
                         <p className="text-[10px] text-gray-500 sm:text-xs">
@@ -91,12 +97,12 @@ const Cart: React.FC = () => {
                       </span>
                       <button
                         onClick={() => addtocart(String(item.id))}
-                        className="bg-green-500 text-white w-6 h-6 flex items-center justify-center rounded-full"
+                        className="bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full"
                       >
                         +
                       </button>
                     </div>
-                    <div className="col-span-2 sm:col-span-1 flex justify-center items-center gap-1 sm:gap-4">
+                    <div className="col-s sm:col-span-1 flex justify-center items-center md:gap-16 sm:gap-4">
                       <button>
                         <img src={edit} alt="edit" className="w-5 h-5" />
                       </button>
@@ -117,14 +123,14 @@ const Cart: React.FC = () => {
                       <p className="text-xs text-gray-500">{item.unit}</p>
                     </div>
                     <div className="  ">
-                      <div className="flex items-center gap-2 mt-1">
+                      <div className="flex items-center gap-0 mt-1">
                         <button
                           onClick={() => removeformcart(String(item.id))}
                           className="w-6 h-6 rounded-full bg-red-500 text-white"
                         >
                           -
                         </button>
-                        <span className="text-center w-6 bg-red-300">
+                        <span className="text-center w-6 bg-red-300 ">
                           {quantity}
                         </span>
                         <button
@@ -147,8 +153,8 @@ const Cart: React.FC = () => {
           })}
         </div>
       </div>
-      <div className="fixed bottom-0 left-0 w-full flex flex-col gap-2 md:hidden bg-white border-t shadow-lg px-4 py-3">
-        <div className="flex flex-row justify-between gap-2">
+      <div className="fixed bottom-0 left-0 w-full flex flex-col gap-2 md:hidden mt-  bg-white border-t shadow-[0px_-15px_20px_5px_rgba(0,0,0,0.1)] px-4 py-3">
+        <div className="flex flex-row justify-between gap-2 pb-4 pt-4">
           <div className="flex flex-row text-sm gap-2">
             <span>Subtotal</span>
             <span>${subtotal.toFixed(2)}</span>
@@ -158,16 +164,20 @@ const Cart: React.FC = () => {
             <span>${delivery.toFixed(2)}</span>
           </div>
         </div>
-        <div className="flex flex-col justify-between text-base font-bold mt-2">
-          <span>Total</span>
-          <span>${total.toFixed(2)}</span>
+        <div className="flex flex-row justify-between  border-t pt-4 pb-4 border-gray-500">
+          <div className="flex flex-col justify-between text-base font-bold text-gray-500 mt-2">
+            <span>Total</span>
+            <span className="font-bold text-[30px] pt-2 text-black">
+              ${total.toFixed(2)}
+            </span>
+          </div>
+          <button
+            onClick={() => navigate("/order")}
+            className="mt-3 px-5 bg-red-500 text-white py-2 rounded-full"
+          >
+            Checkout
+          </button>
         </div>
-        <button
-          onClick={() => navigate("/order")}
-          className="mt-3 w-full bg-red-500 text-white py-2 rounded-full"
-        >
-          Checkout
-        </button>
       </div>{" "}
     </div>
   );

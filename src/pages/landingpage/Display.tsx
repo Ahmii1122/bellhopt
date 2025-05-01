@@ -4,6 +4,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa6";
 import { StoreContext } from "../../context/StoredContext";
 import { categories } from "../../assets/assets";
+import { FiPlus } from "react-icons/fi";
 
 const Display = () => {
   const store = useContext(StoreContext);
@@ -28,7 +29,7 @@ const Display = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 max-w-[1512px] mx-auto w-full">
+    <div className="flex min-h-screen max-w-[1512px] mx-auto w-full">
       <aside className="hidden md:block w-1/3 lg:w-1/4 bg-white shadow p-8 ">
         <h2 className="font-bold text-xl mb-4">Categories</h2>
         <div className="flex flex-col justify-center">
@@ -96,13 +97,13 @@ const Display = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-6 ">
           {food_list.map((item) => {
             const count = cartitems[item.id] || 0;
             return (
               <div
                 key={item.id}
-                className="bg-white shadow p-4 rounded-lg text-center relative h-[300px] flex flex-col justify-between"
+                className="  p-4 roundedg text-center relative h-[300px] flex flex-col justify-between"
               >
                 <div className="flex justify-center items-center text-4xl mb-2">
                   <img
@@ -144,9 +145,13 @@ const Display = () => {
                   ) : (
                     <button
                       onClick={() => addtocart(String(item.id))}
-                      className="bg-white p-2 rounded-full shadow hover:bg-green-100"
+                      className="bg-white p-4 rounded-full shadow hover:bg-green-100"
                     >
-                      {hoveredItem === item.id ? "Add to cart" : <FaPlus />}
+                      {hoveredItem === item.id ? (
+                        "Add to cart"
+                      ) : (
+                        <FiPlus size={25} />
+                      )}
                     </button>
                   )}
                 </div>
