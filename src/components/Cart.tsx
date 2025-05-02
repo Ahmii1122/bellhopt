@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { StoreContext, StoreContextType } from "../context/StoredContext";
 import { useNavigate } from "react-router-dom";
-import edit from "../assets/edit.png";
+import edit from "../assets/Edit.png";
 import remove from "../assets/Delete.png";
 
 const Cart: React.FC = () => {
