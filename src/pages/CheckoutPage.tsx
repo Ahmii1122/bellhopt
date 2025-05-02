@@ -1,8 +1,10 @@
 import { useContext, useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { StoreContext, StoreContextType } from "../context/StoredContext";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
+  const navigate = useNavigate();
   const { gettotalcartamount } = useContext(StoreContext) as StoreContextType;
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -52,9 +54,9 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="max-w-[1512px] mx-auto border-t-2 border-gray-200">
+    <div className="max-w-[1512px] mx-auto border-t-2 border-gray-200 max-h-screen">
       <p className="text-2xl font-bold font-segoe px-20 mt-10">Checkout</p>
-      <div className="flex flex-col lg:flex-row justify-between px-4 lg:px-20 mt-10">
+      <div className="flex flex-col lg:flex-row justify-between gap-11 px-4 lg:px-10 mt-10">
         <div className="w-full lg:w-[65%]">
           <div className="border-2 border-gray-200 p-4">
             <h2 className="text-2xl font-semibold mb-2 pb-6 border-b-2 border-gray-200">
@@ -69,7 +71,7 @@ const CheckoutPage = () => {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full border px-3 py-3  bg-gray-100 mb-11"
+                  className="w-full border px-3 py-3 accent-red-500  bg-gray-100 mb-11"
                 />
               </div>
               <div>
@@ -124,7 +126,7 @@ const CheckoutPage = () => {
                 type="checkbox"
                 checked={addressConfirmed}
                 onChange={() => setAddressConfirmed(!addressConfirmed)}
-                className="h-4 w-4 "
+                className="h-4 w-4 accent-red-500 "
               />
               I've confirmed the above address
             </label>
@@ -132,13 +134,13 @@ const CheckoutPage = () => {
           {/* end of delivery address */}
           <div className="mt-5 p-4 border-2 border-gray-300">
             <div className="flex justify-between border-b-2">
-              <h2 className="text-2xl font-semibold mb-4 mt-3 ">
+              <h2 className="text-xl md:text-2xl font-semibold mb-4 mt-3 ">
                 Split total bill{" "}
                 <span className="text-gray-500 text-sm">(Optional)</span>
               </h2>
               <button
                 onClick={handleAddEmail}
-                className="bg-gray-100 border  rounded-full text-[16px] px-3 mb-[10px] hover:bg-gray-200"
+                className="bg-gray-100 border  rounded-full text-[13px] md:text-[16px] px-3 mb-[10px] hover:bg-gray-200"
               >
                 + Add additional email
               </button>
@@ -165,29 +167,29 @@ const CheckoutPage = () => {
             </div>
           </div>
         </div>
-        <div className="w-full lg:w-[30%] ">
-          <div className="p-4 border-2 border-gray-30">
-            <div className="flex justify-between mb-2 mt-9 font-semibold">
+        <div className="w-full h-[700px] lg:w-[30%] border-2 border-gray-300 p-4">
+          <div className="">
+            <div className="flex justify-between mt-9 font-semibold mb-8">
               <span className="text-[16px]">Subtotal</span>
               <span className="text-[20px]">${subtotal.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between font-semibold mb-2">
+            <div className="flex justify-between font-semibold mb-8">
               <span className="text-[16px]">Platform Fee (5%)</span>
               <span className="text-[20px]">${tax.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between mb-2">
-              <span>Driver's Fee</span>
-              <span>${delivery.toFixed(2)}</span>
+            <div className="flex justify-between font-semibold mb-8">
+              <span className="text-[16px]">Driver's Fee</span>
+              <span className="text-[20px]">${delivery.toFixed(2)}</span>
             </div>
-            <div className="my-4 ">
-              <span className="block font-medium mb-2">Tip for Driver</span>
-              <div className="flex gap-2 bg-gray-100 rounded-full justify-between text-[16px] ">
+            <span className=" font-medium mb-7">Tip for Driver</span>
+            <div className="my-10 max-w-full ">
+              <div className="flex  bg-gray-100 rounded-full justify-between text-[16px] ">
                 {["10%", "15%", "20%", "Custom"].map((label) => (
                   <button
                     key={label}
-                    className={`px-8 py-3 rounded-full ${
+                    className={`px-6 md:px-4 py-3 rounded-full text-[14px] transition  ${
                       selectedTip === label
-                        ? "bg-red-500 text-white"
+                        ? "bg-red-500 text-white "
                         : "bg-gray-100 text-gray-700"
                     }`}
                     onClick={() => handleTipSelection(label)}
@@ -205,8 +207,30 @@ const CheckoutPage = () => {
               )} */}
             <hr className="my-4" />
             <div className="flex justify-between text-lg font-semibold">
-              <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span className="text-xl font-semibold font-segoe">Total</span>
+              <span className="text-3xl font-bold font-segoe">
+                ${total.toFixed(2)}
+              </span>
+            </div>
+            <hr className="mt-4 mb-9" />
+            <div className="p-2 mb-10">
+              <p className="text-sm leading-[100%] tracking-[0%] text-gray-500">
+                Your personal data will be used to support your experience
+                throughout this website, to manage access to your account, and
+                for other purposes described in our{" "}
+                <span className="text-black text-bold cursor-pointer">
+                  privacy policy
+                </span>
+                .
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <button
+                onClick={() => navigate("/thankyou")}
+                className="flex align-middle justify-between items-center bg-red-500 text-white px-20 py-2 rounded-full text-xl font-semibold"
+              >
+                Pay Now
+              </button>
             </div>
           </div>
         </div>
