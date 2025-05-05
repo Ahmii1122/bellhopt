@@ -1,11 +1,14 @@
-import img1 from "../assets/pngwing 14.png";
-import img2 from "../assets/pngwing 15.png";
-import img3 from "../assets/pngwing 16.png";
-import img4 from "../assets/pngwing 17.png";
-import img5 from "../assets/pngwing 19.png";
-import img6 from "../assets/pngwing 20.png";
-import img7 from "../assets/pngwing 21.png";
-import img8 from "../assets/pngwing 22.png";
+import img1 from "../assets/strawberry.png";
+import img2 from "../assets/apple.png";
+import img3 from "../assets/orange.png";
+import img4 from "../assets/lemon.png";
+import img5 from "../assets/tomato.png";
+import img6 from "../assets/pomegranate.png";
+import img7 from "../assets/potato.png";
+import img8 from "../assets/onion.png";
+import o2 from "../assets/o2.png";
+import o3 from "../assets/o3.png";
+import o4 from "../assets/o4.png";
 import imgc1 from "../assets/Flame.png";
 import imgc2 from "../assets/detergent 1.png";
 import imgc3 from "../assets/Groceries Basket.png";
@@ -20,7 +23,8 @@ export const items = [
     name: "Strawberry",
     price: 1.2,
     unit: "$0.59/lb",
-    image: img1,
+    stock: 50,
+    image: [img1, img2, img3],
     category: "Fruits & Vegetables",
   },
   {
@@ -28,7 +32,8 @@ export const items = [
     name: "Apple green",
     price: 2.2,
     unit: "$0.59/lb",
-    image: img2,
+    stock: 10,
+    image: [img2],
     category: "Fruits & Vegetables",
   },
   {
@@ -36,7 +41,7 @@ export const items = [
     name: "Orange (each)",
     price: 1.2,
     unit: "$0.59/lb",
-    image: img3,
+    image: [img3, o2, o3, o4],
     category: "Fruits & Vegetables",
   },
   {
@@ -44,7 +49,7 @@ export const items = [
     name: "Green Lemon",
     price: 1.2,
     unit: "$0.59/lb",
-    image: img4,
+    image: [img4],
     category: "Fruits & Vegetables",
   },
   {
@@ -52,7 +57,7 @@ export const items = [
     name: "Tomatto",
     price: 1.2,
     unit: "$0.59/lb",
-    image: img5,
+    image: [img5],
     category: "Fruits & Vegetables",
   },
   {
@@ -60,7 +65,7 @@ export const items = [
     name: "Pomegranate",
     price: 1.2,
     unit: "$2.59/lb",
-    image: img6,
+    image: [img6],
     category: "Fruits & Vegetables",
   },
   {
@@ -68,7 +73,7 @@ export const items = [
     name: "Potato",
     price: 1.2,
     unit: "$0.59/lb",
-    image: img7,
+    image: [img7],
     category: "Fruits & Vegetables",
   },
   {
@@ -76,7 +81,7 @@ export const items = [
     name: "Red onions",
     price: 1.2,
     unit: "$0.59/lb",
-    image: img8,
+    image: [img8],
     category: "Fruits & Vegetables",
   },
 ];

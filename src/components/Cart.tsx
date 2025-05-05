@@ -69,7 +69,7 @@ const Cart: React.FC = () => {
                   <div className="hidden md:grid grid-cols-4 items-center gap-1 sm:gap-2">
                     <div className="flex flex-col md:flex-row items-center gap-5 sm:gap-3 ">
                       <img
-                        src={item.image}
+                        src={item.image[0]}
                         alt={item.name}
                         className="w-12 h-12 sm:w-16 sm:h-16 object-cover border-2 border-gray-200 p-1 rounded"
                       />

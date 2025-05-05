@@ -107,11 +107,11 @@ const Display = () => {
                 className="  p-4 roundedg text-center relative h-[300px] flex flex-col justify-between"
               >
                 <Link to={`/productdetail/${item.id}`}>
-                  <div className="flex justify-center items-center text-4xl mb-2">
+                  <div className="flex justify-center items-center  text-4xl mb-2">
                     <img
-                      src={item.image}
+                      src={item.image[0]}
                       alt={item.name}
-                      className=" object-contain"
+                      className=" object-contain size-52"
                     />
                   </div>
                 </Link>

@@ -4,9 +4,10 @@ import { items } from "../assets/assets";
 interface FoodItem {
   id: number;
   name: string;
-  image: string;
+  image: string[];
   price: number;
   unit: string;
+  stock: number;
   category: string;
 }
 
@@ -19,7 +20,6 @@ export interface StoreContextType {
   gettotalcartamount: () => number;
 }
 
-// Create the context with the defined type
 export const StoreContext = createContext<StoreContextType | undefined>(
   undefined
 );
