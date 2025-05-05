@@ -62,7 +62,7 @@ const Navbar = () => {
     navigate("/cart");
   };
   return (
-    <nav className="max-w-[1330px] mx-auto px-12 py-2">
+    <nav className="max-w-[1330px] mx-auto px-4 md:px-10 md:pl-4 py-2">
       {isMobile ? (
         // Mobile View
         <div>

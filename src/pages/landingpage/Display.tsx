@@ -5,6 +5,7 @@ import { FaArrowRight, FaArrowLeft } from "react-icons/fa6";
 import { StoreContext } from "../../context/StoredContext";
 import { categories } from "../../assets/assets";
 import { FiPlus } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const Display = () => {
   const store = useContext(StoreContext);
@@ -80,10 +81,10 @@ const Display = () => {
         </div>
       </aside>
 
-      <main className="flex-1 p-6 ">
+      <main className="flex flex-col p-6 ">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold mb-4">Fruits and Vegetables</h1>
-          <div className="flex items-center gap-2">
+          <div className="flex gap-2">
             <div className="bg-gray-200 rounded-full p-2">
               <FaArrowLeft className="size-4 bg-gray-200 rounded-full" />
             </div>
@@ -105,13 +106,15 @@ const Display = () => {
                 key={item.id}
                 className="  p-4 roundedg text-center relative h-[300px] flex flex-col justify-between"
               >
-                <div className="flex justify-center items-center text-4xl mb-2">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className=" object-contain"
-                  />
-                </div>
+                <Link to={`/productdetail/${item.id}`}>
+                  <div className="flex justify-center items-center text-4xl mb-2">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className=" object-contain"
+                    />
+                  </div>
+                </Link>
                 <div
                   className="absolute top-36 right-4"
                   onMouseEnter={() => setHoveredItem(item.id)}
@@ -145,7 +148,7 @@ const Display = () => {
                   ) : (
                     <button
                       onClick={() => addtocart(String(item.id))}
-                      className="bg-white p-4 rounded-full shadow hover:bg-green-100"
+                      className="bg-white p-3 rounded-full shadow hover:bg-green-100"
                     >
                       {hoveredItem === item.id ? (
                         "Add to cart"
@@ -155,19 +158,22 @@ const Display = () => {
                     </button>
                   )}
                 </div>
-                <div className="flex items-start justify-start font-semibold text-3xl">
-                  <span className="text-sm mt-1 mr-0.5">$</span>
-                  <span className="text-3xl">{Math.floor(item.price)}</span>
-                  <span className="text-sm mt-1">
-                    .{item.price.toFixed(2).split(".")[1]}
-                  </span>
-                </div>
-                <div className="flex justify-start items-start ">
-                  {item.name}
-                </div>
-                <div className="flex justify-start items-start mb-2 text-sm text-gray-500">
-                  <p>({item.unit})</p>
-                </div>
+                <Link to={`/productdetail/${item.id}`}>
+                  <div className="flex items-start justify-start font-semibold text-3xl">
+                    <span className="text-sm mt-1 mr-0.5">$</span>
+                    <span className="text-3xl">{Math.floor(item.price)}</span>
+                    <span className="text-sm mt-1">
+                      .{item.price.toFixed(2).split(".")[1]}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-start items-start ">
+                    {item.name}
+                  </div>
+                  <div className="flex justify-start items-start mb-2 text-sm text-gray-500">
+                    <p>({item.unit})</p>
+                  </div>
+                </Link>
               </div>
             );
           })}

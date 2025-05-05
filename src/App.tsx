@@ -5,6 +5,7 @@ import Landing from "./pages/landingpage/Landing";
 import CheckoutPage from "./pages/CheckoutPage";
 import Thankyou from "./pages/landingpage/Thankyou";
 import Footer from "./components/Footer";
+import ProductDisplay from "./components/ProductDetail";
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/thankyou" element={<Thankyou />} />
+          <Route path="/productdetail/:id" element={<ProductDisplay />} />
         </Routes>
         <Footer />
       </Router>

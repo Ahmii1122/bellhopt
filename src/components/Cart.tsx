@@ -21,7 +21,7 @@ const Cart: React.FC = () => {
   const total = subtotal + delivery + tax;
 
   return (
-    <div className="p-4 md:p-6 lg:p-10 pb-32 md:pb-10">
+    <div className="p-4 md:p-6 lg:p- pb-32 md:pb-10">
       <h1 className="text-2xl font-bold mb-6 px-10">My Cart</h1>
       {/* <p className="flex justify-center text-right max-w-[900px] mt-10   md:hidden lg:block  ">
         Order Summary
