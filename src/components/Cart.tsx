@@ -114,7 +114,7 @@ const Cart: React.FC = () => {
 
                   <div className="md:hidden flex flex-row items-center justify-between gap-3 p-3 bg-white shadow rounded-lg">
                     <img
-                      src={item.image}
+                      src={item.image[0]}
                       alt={item.name}
                       className="w-14 h-14 object-cover rounded border"
                     />
