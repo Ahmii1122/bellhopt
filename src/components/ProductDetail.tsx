@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StoreContext } from "../context/StoredContext";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { TiThMenuOutline } from "react-icons/ti";
@@ -15,17 +15,36 @@ import { FiPlus } from "react-icons/fi";
 
 const ProductDisplay = () => {
   const { id } = useParams<{ id: string }>();
-  const itemsPerPage =
-    window.innerWidth <= 768 ? 4 : window.innerWidth <= 1024 ? 5 : 5;
-  const [startIndex, setStartIndex] = useState(0);
   const context = useContext(StoreContext);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [startIndex, setStartIndex] = useState(0);
+  const itemsPerPage =
+    window.innerWidth <= 768 ? 4 : window.innerWidth <= 1024 ? 5 : 5;
+
+  useEffect(() => {
+    if (context) {
+      const product = context.food_list.find(
+        (item: { id: number }) => String(item.id) === id
+      );
+      if (product?.image && product.image.length > 0) {
+        setSelectedImage(product.image[0]);
+      }
+    }
+  }, [context, id]);
 
   if (!context) {
     return <div>Loading...</div>;
   }
   const { food_list, addtocart, cartitems, removeformcart } = context;
+
+  const product = food_list.find(
+    (item: { id: number }) => String(item.id) === id
+  );
+
+  if (!product) {
+    return <div>Product not found</div>;
+  }
 
   const filteredItems = food_list.filter(
     (item) => item.category === "Fruits & Vegetables"
@@ -46,18 +65,6 @@ const ProductDisplay = () => {
       setStartIndex(startIndex - itemsPerPage);
     }
   };
-
-  const product = food_list.find(
-    (item: { id: number }) => String(item.id) === id
-  );
-
-  if (!product) {
-    return <div>Product not found</div>;
-  }
-
-  if (!selectedImage) {
-    setSelectedImage(product.image[0]);
-  }
 
   return (
     <>
