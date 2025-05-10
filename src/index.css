@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .hover-ring {
+    @apply transition-all duration-300 hover:ring-2 hover:ring-red-300;
+  }
+}

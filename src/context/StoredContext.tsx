@@ -1,18 +1,7 @@
-import { createContext, ReactNode, useState } from "react";
-import { items } from "../assets/assets";
-
-interface FoodItem {
-  id: number;
-  name: string;
-  image: string[];
-  price: number;
-  unit: string;
-  stock: number;
-  category: string;
-}
+import { createContext, ReactNode, useContext, useState } from "react";
+import useProducts from "../hooks/useProducts";
 
 export interface StoreContextType {
-  food_list: FoodItem[];
   cartitems: Record<string, number>;
   setcartitems: React.Dispatch<React.SetStateAction<Record<string, number>>>;
   addtocart: (itemId: string) => void;
@@ -30,6 +19,7 @@ interface StoreContextProviderProps {
 
 const StoreContextProvider = ({ children }: StoreContextProviderProps) => {
   const [cartitems, setcartitems] = useState<Record<string, number>>({});
+  const { products } = useProducts();
 
   const addtocart = (itemId: string) => {
     setcartitems((prev) => ({
@@ -49,7 +39,9 @@ const StoreContextProvider = ({ children }: StoreContextProviderProps) => {
     let totalamount = 0;
     for (const item in cartitems) {
       if (cartitems[item] > 0) {
-        const iteminfo = items.find((product) => String(product.id) === item);
+        const iteminfo = products?.find(
+          (product) => String(product.id) === item
+        );
         if (iteminfo) {
           totalamount += iteminfo.price * cartitems[item];
         }
@@ -59,7 +51,6 @@ const StoreContextProvider = ({ children }: StoreContextProviderProps) => {
   };
 
   const contextValue: StoreContextType = {
-    food_list: items,
     cartitems,
     setcartitems,
     addtocart,
@@ -75,3 +66,13 @@ const StoreContextProvider = ({ children }: StoreContextProviderProps) => {
 };
 
 export default StoreContextProvider;
+
+export const useStore = () => {
+  const context = useContext(StoreContext);
+  if (!context) {
+    throw new Error(
+      "useStoreContext must be used within a StoreContextProvider"
+    );
+  }
+  return context;
+};

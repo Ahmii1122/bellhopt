@@ -3,15 +3,12 @@ import { StoreContext, StoreContextType } from "../context/StoredContext";
 import { useNavigate } from "react-router-dom";
 import edit from "../assets/Edit.png";
 import remove from "../assets/Delete.png";
+import useProducts from "../hooks/useProducts";
 
 const Cart: React.FC = () => {
-  const {
-    cartitems,
-    food_list,
-    addtocart,
-    removeformcart,
-    gettotalcartamount,
-  } = useContext(StoreContext) as StoreContextType;
+  const { products } = useProducts();
+  const { cartitems, addtocart, removeformcart, gettotalcartamount } =
+    useContext(StoreContext) as StoreContextType;
 
   const navigate = useNavigate();
 
@@ -21,7 +18,7 @@ const Cart: React.FC = () => {
   const total = subtotal + delivery + tax;
 
   return (
-    <div className="p-4 md:p-6 lg:p- pb-32 md:pb-10">
+    <div className="p-4 md:p-6 lg:p- pb-32 md:pb-10 max-w-[1512px] mx-auto">
       <h1 className="text-2xl font-bold mb-6 px-10">My Cart</h1>
       {/* <p className="flex justify-center text-right max-w-[900px] mt-10   md:hidden lg:block  ">
         Order Summary
@@ -61,7 +58,7 @@ const Cart: React.FC = () => {
             <p className="text-center">Quantity</p>
           </div>
 
-          {food_list.map((item) => {
+          {products?.map((item) => {
             const quantity = cartitems[String(item.id)];
             if (quantity > 0) {
               return (
@@ -69,16 +66,16 @@ const Cart: React.FC = () => {
                   <div className="hidden md:grid grid-cols-4 items-center gap-1 sm:gap-2">
                     <div className="flex flex-col md:flex-row items-center gap-5 sm:gap-3 ">
                       <img
-                        src={item.image[0]}
-                        alt={item.name}
+                        src={item.images[0]}
+                        alt={item.title}
                         className="w-12 h-12 sm:w-16 sm:h-16 object-cover border-2 border-gray-200 p-1 rounded"
                       />
                       <div className="flex flex-col -2">
                         <p className=" text-xl font-bold sm:text-sm text-nowrap leading-tight md:text-wrap lg:text-nowrap max-w-[100px] sm:max-w-none">
-                          {item.name}
+                          {item.title}
                         </p>
                         <p className="text-[10px] text-gray-500 sm:text-xs">
-                          {item.unit}
+                          {item.availabilityStatus}
                         </p>
                       </div>
                     </div>
@@ -114,13 +111,15 @@ const Cart: React.FC = () => {
 
                   <div className="md:hidden flex flex-row items-center justify-between gap-3 p-3 bg-white shadow rounded-lg">
                     <img
-                      src={item.image[0]}
-                      alt={item.name}
+                      src={item.images[0]}
+                      alt={item.title}
                       className="w-14 h-14 object-cover rounded border"
                     />
                     <div className="flex flex-col w-[30%]">
-                      <p className="font-medium">{item.name}</p>
-                      <p className="text-xs text-gray-500">{item.unit}</p>
+                      <p className="font-medium">{item.title}</p>
+                      <p className="text-xs text-gray-500">
+                        {item.availabilityStatus}
+                      </p>
                     </div>
                     <div className="  ">
                       <div className="flex items-center gap-0 mt-1">
