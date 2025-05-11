@@ -17,13 +17,11 @@ const Navbar = () => {
   const isCartPage = location.pathname === "/cart";
   const isCheckoutPage = location.pathname === "/checkout";
   const { categories } = useCategories();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const category = searchParams.get("category") || categories?.[0]?.slug;
+  const [, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [searchActive, setSearchActive] = useState(false);
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
@@ -85,7 +83,6 @@ const Navbar = () => {
   useEffect(() => {
     const handleClickOutside = () => {
       setShowDropdown(false);
-      setSearchActive(false);
     };
 
     document.addEventListener("click", handleClickOutside);
@@ -126,11 +123,7 @@ const Navbar = () => {
             )}
 
             {!isCheckoutPage && (
-              <form
-                onChange={handleSearchSubmit}
-                onFocus={() => setSearchActive(true)}
-                className="relative w-full"
-              >
+              <form onChange={handleSearchSubmit} className="relative w-full">
                 <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                   <IoIosSearch className="h-5 w-5 text-gray-400" />
                 </span>
