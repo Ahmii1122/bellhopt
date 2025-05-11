@@ -1,25 +1,21 @@
-import { useState, useEffect, JSX, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { MdShoppingCart } from "react-icons/md";
 import logo from "../assets/bellhoptlogo.png";
 import { HiMenuAlt3 } from "react-icons/hi";
-import img1 from "../assets/Flame.png";
-import img2 from "../assets/detergent 1.png";
-import img3 from "../assets/Groceries Basket.png";
-import img4 from "../assets/Wine.png";
-import img5 from "../assets/cake.png";
-import img6 from "../assets/Wine.png";
-import img7 from "../assets/pets.png";
-import { IoIosArrowDown } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+// import { IoIosArrowDown } from "react-icons/io";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { StoreContext, StoreContextType } from "../context/StoredContext";
-interface Category {
-  name: string;
-  image: JSX.Element;
-  subcategories: string[];
-}
+import useCategories from "../hooks/useCategories";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
+  const location = useLocation();
+  const isCartPage = location.pathname === "/cart";
+  const isCheckoutPage = location.pathname === "/checkout";
+  const { categories, categoriesLoading } = useCategories();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category") || categories?.[0]?.slug;
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -57,6 +53,9 @@ const Navbar = () => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  const setActiveCategory = (category: string) => {
+    setSearchParams({ category });
+  };
 
   const gotocart = () => {
     navigate("/cart");
@@ -86,25 +85,29 @@ const Navbar = () => {
 
           {/* Bars + Search */}
           <div className="mt-4 flex justify-between items-center gap-2">
-            <div
-              className="flex items-center justify-center"
-              onClick={toggleMenu}
-            >
-              <HiMenuAlt3 size={29} color="red" />
-            </div>
+            {!isCartPage && !isCheckoutPage && (
+              <div
+                className="md:hidden flex items-center justify-center"
+                onClick={toggleMenu}
+              >
+                <HiMenuAlt3 size={29} color="red" />
+              </div>
+            )}
 
-            <form onSubmit={handleSearchSubmit} className="relative w-full">
-              <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                <IoIosSearch className="h-5 w-5 text-gray-400" />
-              </span>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={handleInputChange}
-                placeholder="Search products here..."
-                className="w-full rounded-full pl-10 pr-4 py-3 text-black bg-[#f7f7f7] focus:outline-none focus:ring-2 focus:ring-red-400"
-              />
-            </form>
+            {!isCheckoutPage && (
+              <form onSubmit={handleSearchSubmit} className="relative w-full">
+                <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                  <IoIosSearch className="h-5 w-5 text-gray-400" />
+                </span>
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={handleInputChange}
+                  placeholder="Search products here..."
+                  className="w-full rounded-full pl-10 pr-4 py-3 text-black bg-[#f7f7f7] focus:outline-none focus:ring-2 focus:ring-red-400"
+                />
+              </form>
+            )}
           </div>
 
           {/* Category Overlay */}
@@ -118,7 +121,7 @@ const Navbar = () => {
 
               {/* Menu stays on top of the overlay */}
               <div
-                className="bg-white  inset-0 h-[145%] w-[90%] max-w-md shadow-lg absolute rounded-r-[50px] z-50"
+                className="bg-white  inset-0 h-[180%] w-[90%] max-w-md shadow-lg absolute rounded-r-[50px] z-50"
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside menu
               >
                 <img
@@ -131,36 +134,37 @@ const Navbar = () => {
                 </h2>
                 <div className="flex flex-col items-center justify-center gap-4">
                   <ul className="space-y-2 ">
-                    {categories.map((category, index) => (
+                    {categories?.map((category, index) => (
                       <li key={index}>
                         <div
                           className={`flex justify-between items-center cursor-pointer p-2 rounded-md gap-40`}
-                          onClick={() =>
-                            category.subcategories && toggleSubcategories(index)
-                          }
+                          onClick={() => {
+                            setActiveCategory(category.slug);
+                            toggleMenu();
+                          }}
                         >
                           <div className="flex items-center justify-between gap-3">
-                            <div className="flex items-center justify-center gap-3 p-2 bg-gray-200 size-12 rounded-full">
-                              {category.image}
-                            </div>
+                            {/* <div className="flex items-center justify-center gap-3 p-2 bg-gray-200 size-12 rounded-full">
+                              {}
+                            </div> */}
                             <span className="text-lg font-semibold font-segoe">
                               {category.name}
                             </span>
                           </div>
 
-                          {category.subcategories && (
+                          {/* {category && (
                             <IoIosArrowDown
                               className={`transition-transform duration-300 size-6 ${
                                 openIndex === index ? "rotate-180" : ""
                               }`}
                             />
-                          )}
+                          )} */}
                         </div>
 
                         {/* Subcategories */}
-                        {openIndex === index && category.subcategories && (
+                        {/* {openIndex === index && category && (
                           <ul className="pl-10 mt-2 space-y-1 text-gray-600">
-                            {category.subcategories.map((sub, subIdx) => (
+                            {category.map((sub, subIdx) => (
                               <li
                                 key={subIdx}
                                 className="hover:text-red-500 cursor-pointer"
@@ -168,8 +172,8 @@ const Navbar = () => {
                                 {sub}
                               </li>
                             ))}
-                          </ul>
-                        )}
+                          </ul> */}
+                        {/* )} */}
                       </li>
                     ))}
                   </ul>
@@ -228,40 +232,40 @@ const Navbar = () => {
 
 export default Navbar;
 
-const categories: Category[] = [
-  {
-    name: "Trending",
-    image: <img src={img1} alt="Trending" />,
-    subcategories: ["Mobiles", "Laptops", "Cameras"],
-  },
-  {
-    name: "Packages",
-    image: <img src={img2} alt="Packages" />,
-    subcategories: ["Men", "Women", "Kids"],
-  },
-  {
-    name: "Grocery",
-    image: <img src={img3} alt="Grocery" />,
-    subcategories: ["Furniture", "Decor", "Appliances"],
-  },
-  {
-    name: "Alcohol",
-    image: <img src={img4} alt="Alcohol" />,
-    subcategories: ["Furniture", "Decor", "Appliances"],
-  },
-  {
-    name: "Desert",
-    image: <img src={img5} alt="Desert" />,
-    subcategories: ["Furniture", "Decor", "Appliances"],
-  },
-  {
-    name: "Beverages",
-    image: <img src={img6} alt="Beverages" />,
-    subcategories: ["Furniture", "Decor", "Appliances"],
-  },
-  {
-    name: "Pet Supplies",
-    image: <img src={img7} alt="Pet Supplies" />,
-    subcategories: ["Furniture", "Decor", "Appliances"],
-  },
-];
+// const categories: Category[] = [
+//   {
+//     name: "Trending",
+//     image: <img src={img1} alt="Trending" />,
+//     subcategories: ["Mobiles", "Laptops", "Cameras"],
+//   },
+//   {
+//     name: "Packages",
+//     image: <img src={img2} alt="Packages" />,
+//     subcategories: ["Men", "Women", "Kids"],
+//   },
+//   {
+//     name: "Grocery",
+//     image: <img src={img3} alt="Grocery" />,
+//     subcategories: ["Furniture", "Decor", "Appliances"],
+//   },
+//   {
+//     name: "Alcohol",
+//     image: <img src={img4} alt="Alcohol" />,
+//     subcategories: ["Furniture", "Decor", "Appliances"],
+//   },
+//   {
+//     name: "Desert",
+//     image: <img src={img5} alt="Desert" />,
+//     subcategories: ["Furniture", "Decor", "Appliances"],
+//   },
+//   {
+//     name: "Beverages",
+//     image: <img src={img6} alt="Beverages" />,
+//     subcategories: ["Furniture", "Decor", "Appliances"],
+//   },
+//   {
+//     name: "Pet Supplies",
+//     image: <img src={img7} alt="Pet Supplies" />,
+//     subcategories: ["Furniture", "Decor", "Appliances"],
+//   },
+// ];

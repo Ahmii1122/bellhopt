@@ -33,6 +33,7 @@ const Carousel = ({
     speed: 500,
     autoplay: true,
     autoplaySpeed: 3000,
+
     responsive: [
       {
         breakpoint: 1024,
@@ -51,7 +52,7 @@ const Carousel = ({
     rows: rows,
   };
   return (
-    <div>
+    <div className="max-w-[1512px] mx-auto">
       <div className="flex flex-row justify-between items-center">
         <p className="font-segoe font-bold text-4xl ">{title}</p>
         <div className="flex flex-row gap-5">
@@ -77,9 +78,15 @@ const Carousel = ({
           </div>
         </div>
       </div>
-      <Slider {...settings} ref={sliderRef} className="w-full">
+      <Slider
+        {...settings}
+        ref={sliderRef}
+        centerMode={false}
+        variableWidth={false}
+        className="items-start flex align-start"
+      >
         {items.map((item) => (
-          <div key={item.id}>
+          <div className="" key={item.id}>
             <ProductCard item={item} />
           </div>
         ))}

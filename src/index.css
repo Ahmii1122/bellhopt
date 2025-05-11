@@ -7,3 +7,33 @@
     @apply transition-all duration-300 hover:ring-2 hover:ring-red-300;
   }
 }
+
+/* --- React Slick Overrides --- */
+/* --- React Slick Overrides --- */
+.slick-slider {
+  display: flex;
+  align-items: flex-start;
+}
+
+.slick-track {
+  display: flex !important;
+  gap: 0 !important;
+  justify-content: flex-start !important; /* Align slides to the start */
+}
+
+.slick-slide {
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  justify-content: center; /* centers inner card */
+}
+
+.slick-slide > div {
+  width: 100% !important;
+  height: 100%;
+}
+.slick-list {
+  margin: 0 !important;
+  padding: 0 !important;
+  justify-content: flex-start !important;
+}

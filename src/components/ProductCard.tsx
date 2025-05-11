@@ -9,7 +9,7 @@ const ProductCard = ({ item }: { item: Product }) => {
   const { addtocart, removeformcart, cartitems } = useStore();
   const count = cartitems[item.id] || 0;
   return (
-    <div key={item.id} className="p-4 text-center relative">
+    <div key={item.id} className="p-4 text-center relative ">
       <Link to={`/productdetail/${item.id}`}>
         <div className="flex justify-center items-center mb-2">
           <img

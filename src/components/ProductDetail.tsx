@@ -59,7 +59,7 @@ const ProductDisplay = () => {
               <img
                 src={selectedImage || product.images[0]}
                 alt={product.title}
-                className="w-[460px] h-[370px] p-4 "
+                className="w-[460px] h-[440px] p-4 "
               />
             </div>
             {/* Thumbnail Row */}
@@ -130,7 +130,7 @@ const ProductDisplay = () => {
           </div>
         </div>
       </div>
-      <div className="p-3 px-10 mt-16 max-w-[1512px] mx-auto">
+      <div className="p-3 px-10 mt-16 max-w-[1512px] mx-auto ">
         <Carousel
           items={relatedProducts || []}
           title="Related Products"

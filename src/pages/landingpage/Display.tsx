@@ -39,11 +39,11 @@ const Display = () => {
                 ))}
             </div>
           ) : (
-            <ul className="pl-10 mt-2 space-y-1 text-gray-600">
+            <ul className="pl-10 mt-2 space-y-5 text-gray-600">
               {categories?.map((category, subIdx) => (
                 <li
                   key={subIdx}
-                  className="hover:text-red-500 cursor-pointer"
+                  className="hover:text-red-500 cursor-pointer font-semibold text-lg"
                   onClick={() => setActiveCategory(category.slug)}
                 >
                   {category.name}
@@ -54,10 +54,10 @@ const Display = () => {
         </div>
       </aside>
 
-      <main className="p-6 w-full">
+      <main className="p-6 w-full md:w-[75%]">
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Array(5)
+            {Array(6)
               .fill(0)
               .map((_, index) => (
                 <CardSkeleton key={index} />

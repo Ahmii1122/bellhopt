@@ -54,7 +54,7 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="max-w-[1512px] mx-auto border-t-2 border-gray-200 max-h-screen">
+    <div className="max-w-[1512px] mx-auto border-t-2 border-gray-200 ">
       <p className="text-2xl font-bold font-segoe px-20 mt-10">Checkout</p>
       <div className="flex flex-col lg:flex-row justify-between gap-11 px-4 lg:px-10 mt-10">
         <div className="w-full lg:w-[65%]">
@@ -133,7 +133,7 @@ const CheckoutPage = () => {
             </label>
           </div>
           {/* end of delivery address */}
-          <div className="mt-5 p-4 border-2 border-gray-300">
+          <div className="mt-5 p-4 border-2 border-gray-300 mb-40">
             <div className="flex justify-between border-b-2">
               <h2 className="text-xl md:text-2xl font-semibold mb-4 mt-3 ">
                 Split total bill{" "}
