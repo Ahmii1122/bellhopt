@@ -8,29 +8,40 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { StoreContext, StoreContextType } from "../context/StoredContext";
 import useCategories from "../hooks/useCategories";
 import { useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { API } from "../lib/axios";
+import { Product } from "../lib/types";
 
 const Navbar = () => {
   const location = useLocation();
   const isCartPage = location.pathname === "/cart";
   const isCheckoutPage = location.pathname === "/checkout";
-  const { categories, categoriesLoading } = useCategories();
+  const { categories } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category") || categories?.[0]?.slug;
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
+
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const navigate = useNavigate();
   const { cartitems } = useContext(StoreContext) as StoreContextType;
   const totalCartItems = Object.keys(cartitems).filter(
     (itemId) => cartitems[itemId] > 0
   ).length;
+  const { data: Searchproducts } = useQuery<Product[]>({
+    queryKey: ["search", searchTerm], // now it depends on the search term
+    queryFn: async () => {
+      if (!searchTerm.trim()) return []; // don't call API for empty search
+      return (await API.get(`/products/search?q=${searchTerm}`)).data.products;
+    },
+    enabled: searchTerm.trim().length > 0, // avoid calling when input is empty
+  });
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
-  };
-  const toggleSubcategories = (index: number) => {
-    setOpenIndex((prev) => (prev === index ? null : index));
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +50,13 @@ const Navbar = () => {
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Searching for:", searchTerm);
+    const searchproducts = Searchproducts?.filter((product) =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setFilteredProducts(searchproducts || []);
+    console.log(filteredProducts);
+    setShowDropdown(true);
   };
 
   // Check screen width
@@ -60,6 +77,20 @@ const Navbar = () => {
   const gotocart = () => {
     navigate("/cart");
   };
+  const goToProduct = (productId: string) => {
+    setShowDropdown(false);
+    setSearchTerm(""); // Optional: Clear search input
+    navigate(`/productdetail/${productId}`);
+  };
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setShowDropdown(false);
+      setSearchActive(false);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
   return (
     <nav className="max-w-[1330px] mx-auto px-4 md:px-10 md:pl-4 py-2">
       {isMobile ? (
@@ -95,7 +126,11 @@ const Navbar = () => {
             )}
 
             {!isCheckoutPage && (
-              <form onSubmit={handleSearchSubmit} className="relative w-full">
+              <form
+                onChange={handleSearchSubmit}
+                onFocus={() => setSearchActive(true)}
+                className="relative w-full"
+              >
                 <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                   <IoIosSearch className="h-5 w-5 text-gray-400" />
                 </span>
@@ -106,20 +141,42 @@ const Navbar = () => {
                   placeholder="Search products here..."
                   className="w-full rounded-full pl-10 pr-4 py-3 text-black bg-[#f7f7f7] focus:outline-none focus:ring-2 focus:ring-red-400"
                 />
+                {showDropdown && (
+                  <ul className="absolute z-50 bg-white w-full mt-1 rounded-md shadow-md max-h-60 overflow-y-auto">
+                    {Searchproducts?.map((product) => (
+                      <li
+                        key={product.id}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+                        onClick={() => goToProduct(product.id.toString())}
+                      >
+                        <img
+                          src={product.images[0]}
+                          alt={product.title}
+                          className="w-10 h-10 rounded-full"
+                        />
+                        {product.title}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {Searchproducts?.length === 0 && showDropdown && (
+                  <ul className="absolute z-50 bg-white w-full mt-1 rounded-md shadow-md max-h-60 overflow-y-auto">
+                    <li className="px-4 py-2 text-gray-500">
+                      No products found
+                    </li>
+                  </ul>
+                )}
               </form>
             )}
           </div>
 
-          {/* Category Overlay */}
           {menuOpen && (
             <>
-              {/* The black overlay covering the whole screen (except the menu) */}
               <div
                 className="fixed inset-0 bg-black bg-opacity-60 z-40"
                 onClick={toggleMenu} // Close menu when clicking outside
               />
 
-              {/* Menu stays on top of the overlay */}
               <div
                 className="bg-white  inset-0 h-[180%] w-[90%] max-w-md shadow-lg absolute rounded-r-[50px] z-50"
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside menu
@@ -151,29 +208,7 @@ const Navbar = () => {
                               {category.name}
                             </span>
                           </div>
-
-                          {/* {category && (
-                            <IoIosArrowDown
-                              className={`transition-transform duration-300 size-6 ${
-                                openIndex === index ? "rotate-180" : ""
-                              }`}
-                            />
-                          )} */}
                         </div>
-
-                        {/* Subcategories */}
-                        {/* {openIndex === index && category && (
-                          <ul className="pl-10 mt-2 space-y-1 text-gray-600">
-                            {category.map((sub, subIdx) => (
-                              <li
-                                key={subIdx}
-                                className="hover:text-red-500 cursor-pointer"
-                              >
-                                {sub}
-                              </li>
-                            ))}
-                          </ul> */}
-                        {/* )} */}
                       </li>
                     ))}
                   </ul>
@@ -201,7 +236,7 @@ const Navbar = () => {
           </div>
 
           <div className="relative w-[53%] flex items-center justify-between gap-4">
-            <form onSubmit={handleSearchSubmit} className="w-full relative">
+            <form onChange={handleSearchSubmit} className="w-full relative">
               <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                 <IoIosSearch className="h-5 w-5 text-gray-400" />
               </span>
@@ -212,6 +247,29 @@ const Navbar = () => {
                 placeholder="Search products here..."
                 className="w-full rounded-full pl-10 md:pr-[21%] lg:pr-[28%] py-4 text-black bg-[#f7f7f7] focus:outline-none focus:ring-2 focus:ring-red-400"
               />
+              {showDropdown && (
+                <ul className="absolute z-50 bg-white w-full mt-1 rounded-md shadow-md max-h-60 overflow-y-auto">
+                  {Searchproducts?.map((product) => (
+                    <li
+                      key={product.id}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
+                      onClick={() => goToProduct(product.id.toString())}
+                    >
+                      <img
+                        src={product.images[0]}
+                        alt={product.title}
+                        className="w-10 h-10 rounded-full"
+                      />
+                      {product.title}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {Searchproducts?.length === 0 && showDropdown && (
+                <ul className="absolute z-50 bg-white w-full mt-1 rounded-md shadow-md max-h-60 overflow-y-auto">
+                  <li className="px-4 py-2 text-gray-500">No products found</li>
+                </ul>
+              )}
             </form>
 
             <button
@@ -231,41 +289,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-// const categories: Category[] = [
-//   {
-//     name: "Trending",
-//     image: <img src={img1} alt="Trending" />,
-//     subcategories: ["Mobiles", "Laptops", "Cameras"],
-//   },
-//   {
-//     name: "Packages",
-//     image: <img src={img2} alt="Packages" />,
-//     subcategories: ["Men", "Women", "Kids"],
-//   },
-//   {
-//     name: "Grocery",
-//     image: <img src={img3} alt="Grocery" />,
-//     subcategories: ["Furniture", "Decor", "Appliances"],
-//   },
-//   {
-//     name: "Alcohol",
-//     image: <img src={img4} alt="Alcohol" />,
-//     subcategories: ["Furniture", "Decor", "Appliances"],
-//   },
-//   {
-//     name: "Desert",
-//     image: <img src={img5} alt="Desert" />,
-//     subcategories: ["Furniture", "Decor", "Appliances"],
-//   },
-//   {
-//     name: "Beverages",
-//     image: <img src={img6} alt="Beverages" />,
-//     subcategories: ["Furniture", "Decor", "Appliances"],
-//   },
-//   {
-//     name: "Pet Supplies",
-//     image: <img src={img7} alt="Pet Supplies" />,
-//     subcategories: ["Furniture", "Decor", "Appliances"],
-//   },
-// ];

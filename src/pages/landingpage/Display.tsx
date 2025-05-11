@@ -12,12 +12,11 @@ const Display = () => {
   const { categories, categoriesLoading } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category") || categories?.[0]?.slug;
-  const { data: products, isLoading } = useQuery<Product[]>({
-    queryKey: ["products", category],
+  const { data: productscat, isLoading } = useQuery<Product[]>({
+    queryKey: ["productcategory", category],
     queryFn: async () =>
       (await API.get(`/products/category/${category}`)).data.products,
   });
-
   const setActiveCategory = (category: string) => {
     setSearchParams({ category });
   };
@@ -65,7 +64,7 @@ const Display = () => {
           </div>
         ) : (
           <Carousel
-            items={products || []}
+            items={productscat || []}
             title={activeCategory?.name || "Products"}
             rows={2}
             infinite={false}
