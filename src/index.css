@@ -23,15 +23,9 @@
 
 .slick-slide {
   padding: 0 !important;
-  margin: 0 !important;
-  display: flex;
-  justify-content: center; /* centers inner card */
+  margin: 0 !important; /* centers inner card */
 }
 
-.slick-slide > div {
-  width: 100% !important;
-  height: 100%;
-}
 .slick-list {
   margin: 0 !important;
   padding: 0 !important;

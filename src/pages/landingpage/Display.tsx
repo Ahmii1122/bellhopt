@@ -7,6 +7,7 @@ import { Product } from "../../lib/types";
 import "react-loading-skeleton/dist/skeleton.css";
 import CardSkeleton from "../../components/skeleton/CardSkeleton";
 import Skeleton from "react-loading-skeleton";
+import ProductCard from "../../components/ProductCard";
 
 const Display = () => {
   const { categories, categoriesLoading } = useCategories();
@@ -63,15 +64,20 @@ const Display = () => {
               ))}
           </div>
         ) : (
-          <Carousel
-            items={productscat || []}
-            title={activeCategory?.name || "Products"}
-            rows={2}
-            infinite={false}
-            desktopColumns={4}
-            tabletColumns={3}
-            mobileColumns={2}
-          />
+          // <Carousel
+          //   items={productscat || []}
+          //   title={activeCategory?.name || "Products"}
+          //   rows={1}
+          //   infinite={false}
+          //   desktopColumns={4}
+          //   tabletColumns={3}
+          //   mobileColumns={2}
+          // />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {productscat?.map((product) => (
+              <ProductCard key={product.id} item={product} />
+            ))}
+          </div>
         )}
       </main>
     </div>
