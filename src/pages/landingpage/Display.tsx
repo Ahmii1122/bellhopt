@@ -1,4 +1,3 @@
-import Carousel from "../../components/Carousel";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useCategories from "../../hooks/useCategories";
@@ -22,8 +21,8 @@ const Display = () => {
     setSearchParams({ category });
   };
 
-  const activeCategory =
-    categories?.find((c) => c.slug === category) || categories?.[0];
+  // const activeCategory =
+  //   categories?.find((c) => c.slug === category) || categories?.[0];
 
   return (
     <div className="flex min-h-screen max-w-[1512px] mx-auto w-full">
