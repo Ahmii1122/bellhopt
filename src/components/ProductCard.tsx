@@ -49,7 +49,9 @@ const ProductCard = ({ item }: { item: Product }) => {
             </div>
           ) : (
             <button onClick={() => addtocart(String(item.id))} className="p-1">
-              <span className="hidden group-hover:block">Add to cart</span>
+              <span className="hidden group-hover:block transition-all duration-3000">
+                Add to cart
+              </span>
               <FiPlus size={25} className="group-hover:hidden" />
             </button>
           )}

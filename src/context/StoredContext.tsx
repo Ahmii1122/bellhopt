@@ -7,6 +7,7 @@ export interface StoreContextType {
   addtocart: (itemId: string) => void;
   removeformcart: (itemId: string) => void;
   gettotalcartamount: () => number;
+  deletecart: (itemId: string) => void;
 }
 
 export const StoreContext = createContext<StoreContextType | undefined>(
@@ -35,6 +36,14 @@ const StoreContextProvider = ({ children }: StoreContextProviderProps) => {
     }));
   };
 
+  const deletecart = (itemId: string) => {
+    setcartitems((prev) => {
+      const newCart = { ...prev };
+      delete newCart[itemId];
+      return newCart;
+    });
+  };
+
   const gettotalcartamount = () => {
     let totalamount = 0;
     for (const item in cartitems) {
@@ -56,6 +65,7 @@ const StoreContextProvider = ({ children }: StoreContextProviderProps) => {
     addtocart,
     removeformcart,
     gettotalcartamount,
+    deletecart,
   };
 
   return (

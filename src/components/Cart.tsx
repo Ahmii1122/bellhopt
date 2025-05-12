@@ -7,8 +7,13 @@ import useProducts from "../hooks/useProducts";
 
 const Cart: React.FC = () => {
   const { products } = useProducts();
-  const { cartitems, addtocart, removeformcart, gettotalcartamount } =
-    useContext(StoreContext) as StoreContextType;
+  const {
+    cartitems,
+    addtocart,
+    removeformcart,
+    gettotalcartamount,
+    deletecart,
+  } = useContext(StoreContext) as StoreContextType;
 
   const navigate = useNavigate();
 
@@ -82,28 +87,30 @@ const Cart: React.FC = () => {
                     <p className="text-center font-medium text-sm sm:text-base">
                       ${item.price.toFixed(2)}
                     </p>
-                    <div className="flex justify-center items-center gap-1 sm:gap-2">
-                      <button
-                        onClick={() => removeformcart(String(item.id))}
-                        className="bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full"
-                      >
-                        -
-                      </button>
-                      <span className="bg-red-100 text-red-700 px-2 rounded font-semibold min-w-[20px] text-center">
-                        {quantity}
-                      </span>
-                      <button
-                        onClick={() => addtocart(String(item.id))}
-                        className="bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full"
-                      >
-                        +
-                      </button>
+                    <div className=" px-16">
+                      <div className="bg-red-300   rounded-full flex justify-center items-center gap-1 sm:gap-2">
+                        <button
+                          onClick={() => removeformcart(String(item.id))}
+                          className="bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full"
+                        >
+                          -
+                        </button>
+                        <span className="bg-red-300 text-black px-2 rounded font-semibold min-w-[20px] text-center">
+                          {quantity}
+                        </span>
+                        <button
+                          onClick={() => addtocart(String(item.id))}
+                          className="bg-red-500 text-white w-6 h-6 flex items-center justify-center rounded-full"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                     <div className="col-s sm:col-span-1 flex justify-center items-center md:gap-16 sm:gap-4">
                       <button>
                         <img src={edit} alt="edit" className="w-5 h-5" />
                       </button>
-                      <button onClick={() => removeformcart(String(item.id))}>
+                      <button onClick={() => deletecart(String(item.id))}>
                         <img src={remove} alt="remove" className="w-5 h-5" />
                       </button>
                     </div>
@@ -121,8 +128,8 @@ const Cart: React.FC = () => {
                         {item.availabilityStatus}
                       </p>
                     </div>
-                    <div className="  ">
-                      <div className="flex items-center gap-0 mt-1">
+                    <div className="bg-red-300   rounded-full ">
+                      <div className="flex items-center  gap-0  ">
                         <button
                           onClick={() => removeformcart(String(item.id))}
                           className="w-6 h-6 rounded-full bg-red-500 text-white"
