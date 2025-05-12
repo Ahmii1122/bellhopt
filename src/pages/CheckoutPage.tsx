@@ -54,12 +54,12 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="max-w-[1512px] mx-auto border-t-2 border-gray-200 ">
+    <div className="max-w-[1512px] mx-auto border-t-[0.5px] border-gray-200 ">
       <p className="text-2xl font-bold font-segoe px-20 mt-10">Checkout</p>
       <div className="flex flex-col lg:flex-row justify-between gap-11 px-4 lg:px-10 mt-10">
         <div className="w-full lg:w-[65%]">
-          <div className="border-2 border-gray-200 p-4">
-            <h2 className="text-2xl font-semibold mb-2 pb-6 border-b-2 border-gray-200">
+          <div className="border-[0.5px] border-gray-200 p-4">
+            <h2 className="text-2xl font-semibold mb-2 pb-6 border-b-[0.5px] border-gray-200">
               Expected Time of Arrival
             </h2>
 
@@ -72,7 +72,7 @@ const CheckoutPage = () => {
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full border px-3 py-3 accent-red-500  bg-gray-100 mb-11"
+                  className="w-full border-[0.5px] px-3 py-3 accent-red-500  bg-gray-100 mb-11"
                 />
               </div>
               <div>
@@ -82,7 +82,7 @@ const CheckoutPage = () => {
                 <select
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="w-full border  px-3 py-[13px] bg-gray-100"
+                  className="w-full border-[0.5px] px-3 py-[13px] bg-gray-100"
                 >
                   <option value="">Select Time</option>
                   {hours.map((hr, idx) => (
@@ -95,7 +95,7 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          <div className="mt-5 p-4 border-2 border-gray-300">
+          <div className="mt-5 p-4 border-[0.5px] border-gray-300">
             <h2 className="text-2xl font-semibold mb-4 mt-3">
               Contact Information
             </h2>
@@ -107,16 +107,16 @@ const CheckoutPage = () => {
               placeholder="+123 456-7890"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-4 mb-7"
+              className="w-full border-[0.5px] border-gray-300 rounded px-3 py-4 mb-7"
             />
           </div>
           {/* end of contact information */}
-          <div className="border rounded p-4 mt-5 border-gray-300 space-y-2">
+          <div className="border-[0.5px] rounded p-4 mt-5 border-gray-300 space-y-2">
             <h2 className="text-2xl font-semibold mb-5 mt-6">
               Delivery Address{" "}
               <span className="text-sm text-gray-500">(auto fetched)</span>
             </h2>
-            <p className="text-[18px] text-gray-700 flex items-center gap-2 -6 border-b-2 border-gray-300 pb-6">
+            <p className="text-[18px] text-gray-700 flex items-center gap-2 -6 border-b-[0.5px] border-gray-300 pb-6">
               <span className="text-red-500 s">
                 <CiLocationOn size={26} />
               </span>{" "}
@@ -133,15 +133,15 @@ const CheckoutPage = () => {
             </label>
           </div>
           {/* end of delivery address */}
-          <div className="mt-5 p-4 border-2 border-gray-300 mb-40">
-            <div className="flex justify-between border-b-2">
+          <div className="mt-5 p-4 border-[0.5px] border-gray-300 mb-40">
+            <div className="flex justify-between border-b-[0.5px]">
               <h2 className="text-xl md:text-2xl font-semibold mb-4 mt-3 ">
                 Split total bill{" "}
                 <span className="text-gray-500 text-sm">(Optional)</span>
               </h2>
               <button
                 onClick={handleAddEmail}
-                className="bg-gray-100 border  rounded-full text-[13px] md:text-[16px] px-3 mb-[10px] hover:bg-gray-200"
+                className="bg-gray-100 border-[0.5px]  rounded-full text-[13px] md:text-[16px] px-3 mb-[10px] hover:bg-gray-200"
               >
                 + Add additional email
               </button>
@@ -152,7 +152,7 @@ const CheckoutPage = () => {
                 placeholder="Enter additional email"
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
-                className="flex-grow border rounded px-3 py-2 hidden"
+                className="flex-grow border-[0.5px] rounded px-3 py-2 hidden"
               />
             </div>
             <div className="flex justify-center mb-9 mt-12 text-sm text-gray-500">
@@ -168,7 +168,7 @@ const CheckoutPage = () => {
             </div>
           </div>
         </div>
-        <div className="w-full h-[700px] lg:w-[30%] border-2 border-gray-300 p-4">
+        <div className="w-full h-[700px] lg:w-[30%] border-[0.5px] border-gray-300 p-4">
           <div className="">
             <div className="flex justify-between mt-9 font-semibold mb-8">
               <span className="text-[16px]">Subtotal</span>

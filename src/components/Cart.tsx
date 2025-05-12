@@ -24,7 +24,7 @@ const Cart: React.FC = () => {
         Order Summary
       </p> */}
       <div className="flex flex-col-reverse lg:flex-row-reverse gap-6">
-        <div className="hidden md:block w-full lg:w-1/3  p-6 border-[1px] border-gray-200 shadow self-start mt-8">
+        <div className="hidden md:block w-full lg:w-1/3  p-6 border-[0.5px] border-gray-200  self-start mt-8">
           <h2 className="text-lg font-semibold mb-4 ">Order Summary</h2>
           <div className="flex justify-between mb-2">
             <span>Subtotal</span>

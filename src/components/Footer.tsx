@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col-reverse md:flex-row justify-between items-center px-8 md:px-24 border-b-[0.5px] border-[#A8A8A8]">
+      <div className="flex flex-col-reverse md:flex-row justify-between items-center px-8 md:px-24  border-[#A8A8A8]">
         <div>
           <p className="font-medium text-[16px] py-7 ">
             © 2023 Bellhopt LLC. All rights reserved
