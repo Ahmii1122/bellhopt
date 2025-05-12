@@ -72,10 +72,16 @@ const Display = () => {
           //   tabletColumns={3}
           //   mobileColumns={2}
           // />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {productscat?.map((product) => (
-              <ProductCard key={product.id} item={product} />
-            ))}
+
+          <div>
+            <p className="font-bold text-4xl font-segoe mb-4  first-letter:capitalize">
+              {productscat?.[0]?.category}
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {productscat?.map((product) => (
+                <ProductCard key={product.id} item={product} />
+              ))}
+            </div>
           </div>
         )}
       </main>
