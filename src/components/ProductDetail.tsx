@@ -57,7 +57,7 @@ const ProductDisplay = () => {
             {/* Large Main Image */}
             <div className="mb-4 flex justify-center">
               <img
-                src={selectedImage || product.images[0]}
+                src={product.images[0]}
                 alt={product.title}
                 className="w-[460px] h-[440px] p-4 "
               />
